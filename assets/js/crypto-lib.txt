@@ -1,0 +1,37 @@
+# AES Encryption Library
+
+For the AES encryption library (aes.js), please download CryptoJS from:
+https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js
+
+Or include it via CDN in your HTML files:
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+Then add these helper functions in a separate file:
+
+const ENCRYPTION_KEY = 'SecureNotesVault2024KeyChange!';
+
+function encryptData(plaintext) {
+    try {
+        const encrypted = CryptoJS.AES.encrypt(plaintext, ENCRYPTION_KEY).toString();
+        return encrypted;
+    } catch (error) {
+        console.error('Encryption error:', error);
+        throw new Error('Failed to encrypt data');
+    }
+}
+
+function decryptData(ciphertext) {
+    try {
+        const decrypted = CryptoJS.AES.decrypt(ciphertext, ENCRYPTION_KEY);
+        const plaintext = decrypted.toString(CryptoJS.enc.Utf8);
+        if (!plaintext) {
+            throw new Error('Decryption failed - empty result');
+        }
+        return plaintext;
+    } catch (error) {
+        console.error('Decryption error:', error);
+        throw new Error('Failed to decrypt data');
+    }
+}
+
+Developed by Avik - https://aviksec.xo.je
