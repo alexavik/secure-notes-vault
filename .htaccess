@@ -1,0 +1,39 @@
+# Secure Notes Vault - Apache Configuration
+# Developed by Avik - https://aviksec.xo.je
+
+# Enable RewriteEngine
+RewriteEngine On
+
+# Force HTTPS (Uncomment in production)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Default page
+DirectoryIndex login.php
+
+# Prevent directory browsing
+Options -Indexes
+
+# Protect sensitive files
+<FilesMatch "^(config\.php|db\.php|functions\.php|database\.sql)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Security Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    # Uncomment for HTTPS
+    # Header set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# Disable server signature
+ServerSignature Off
+
+# Error pages (optional)
+ErrorDocument 404 /404.html
+ErrorDocument 403 /403.html
+ErrorDocument 500 /500.html
